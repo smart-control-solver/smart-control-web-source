@@ -58,9 +58,8 @@ function getSteps() {
     ];
 }
 
-
-const CreateTask: React.FC<{validity: IValidation, updateValidity: (payload: IValidityUpdate) => void, reset: () => void}> =
-({validity, updateValidity, reset}) => {
+type CreateTaskType = React.FC<{validity: IValidation, updateValidity: (payload: IValidityUpdate) => void, reset: () => void}>;
+const CreateTask: CreateTaskType = ({validity, updateValidity, reset}) => {
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(2);
     const steps = getSteps();

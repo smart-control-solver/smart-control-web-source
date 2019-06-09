@@ -1,4 +1,4 @@
-import { IState, IFunctional, IVariable, getEmptyVariable } from '../state';
+import { IState, IVariable, getEmptyVariable } from '../state';
 
 export default {
     VARIABLE_UPDATE(state: IState, action: {var: IVariable; index: number}) {
@@ -33,6 +33,14 @@ export default {
             ...state.editingTask.variableStep.vars,
             getEmptyVariable(),
         ];
+        const newDfDx = [
+            ...state.editingTask.derivativeStep.dfdx.map(row => [...row, '']),
+            Array(allVars.length).fill('')
+        ];
+        const newDfDu = [
+            ...state.editingTask.derivativeStep.dfdu,
+            Array(state.editingTask.managementStep.length).fill('')
+        ];
         return {
             ...state,
             editingTask: {
@@ -40,11 +48,19 @@ export default {
                 variableStep: {
                     vars: allVars
                 },
+                derivativeStep: {
+                    dfdx: newDfDx,
+                    dfdu: newDfDu
+                },
                 validation: {
                     ...state.editingTask.validation,
                     variableStep: {
                         ...state.editingTask.validation.functionalStep,
                         valid: allVars.every(v => !!(v.f && v.p))
+                    },
+                    derivativeStep: {
+                        ...state.editingTask.validation.functionalStep,
+                        valid: false
                     }
                 }
             }
@@ -55,6 +71,12 @@ export default {
             ...state.editingTask.variableStep.vars.slice(0, action),
             ...state.editingTask.variableStep.vars.slice(action + 1),
         ];
+        const newDfDx = state.editingTask.derivativeStep.dfdx
+            .filter((row, i) => i !== action)
+            .map((row, i) => row.filter((dfdx, i) => i !== action));
+
+        const newDfDu = state.editingTask.derivativeStep.dfdu
+            .filter((row, i) => i !== action);
         return {
             ...state,
             editingTask: {
@@ -62,11 +84,19 @@ export default {
                 variableStep: {
                     vars: leftVars
                 },
+                derivativeStep: {
+                    dfdx: newDfDx,
+                    dfdu: newDfDu
+                },
                 validation: {
                     ...state.editingTask.validation,
                     variableStep: {
                         ...state.editingTask.validation.functionalStep,
                         valid: leftVars.every(v => !!(v.f && v.p))
+                    },
+                    derivativeStep: {
+                        ...state.editingTask.validation.functionalStep,
+                        valid: newDfDx.every(row => row.every(Boolean)) && newDfDu.every(row => row.every(Boolean))
                     }
                 }
             }

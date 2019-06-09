@@ -61,12 +61,12 @@ function getSteps() {
 type CreateTaskType = React.FC<{validity: IValidation, updateValidity: (payload: IValidityUpdate) => void, reset: () => void}>;
 const CreateTask: CreateTaskType = ({validity, updateValidity, reset}) => {
     const classes = useStyles();
-    const [activeStep, setActiveStep] = React.useState(2);
+    const [activeStep, setActiveStep] = React.useState(3);
     const steps = getSteps();
 
     // Перемещение по шагам
     const handleStep = (step: number) => () => {
-        if (step !== activeStep) { //validity[TaskStep[index] as keyof IValidation]
+        if (step !== activeStep) {
             const validityStep = validity[TaskStep[activeStep] as keyof IValidation];
             updateValidity({
                 key: TaskStep[activeStep],

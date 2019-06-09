@@ -11,6 +11,9 @@ const useStyles = makeStyles(theme => ({
     tkField: {
         maxWidth: '80px',
         marginLeft: '8px'
+    },
+    center: {
+        alignSelf: 'center'
     }
   }));
 
@@ -77,6 +80,7 @@ const Management: ManagementType = ({
                                     <TableCell key={s}>
                                         <TextField
                                             onChange={updateDudv(i, s)}
+                                            label={`du${i}/dv${s}`}
                                             error={!validity.valid && validity.passed && !manager.dudv[s]}
                                             value={v}/>
                                         {!validity.valid && validity.passed && !manager.dudv[s] && (
@@ -140,7 +144,7 @@ const Management: ManagementType = ({
                         </Table>
                     )}
 
-                    <div className="row">
+                    <div className={classes.center + ' row'}>
                         <Button onClick={addTimeSwitcher(i)}>
                             Добавить момент переключения
                         </Button>

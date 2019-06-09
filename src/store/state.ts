@@ -33,9 +33,7 @@ export interface IFunctional {
     functional: string;
     t0: number;
     T: number;
-    constants: {
-        [key: string]: number;
-    },
+    constants: {key: string, value: number}[],
     hasIntegralPart: boolean;
 }
 
@@ -131,7 +129,7 @@ export const initialState: IState = {
             functional: '',
             t0: 0,
             T: 1,
-            constants: {},
+            constants: [],
             hasIntegralPart: false
 
         },
@@ -143,8 +141,8 @@ export const initialState: IState = {
         },
         managementStep: [getEmptyManager()],
         derivativeStep: {
-            dfdu: [],
-            dfdx: []
+            dfdu: [['']],
+            dfdx: [['']]
         },
         methodStep: {
             name: 'Grad',

@@ -1,18 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Paper, TextField, FormHelperText, Button, IconButton } from '@material-ui/core';
+import { Paper, TextField, FormHelperText, Button, IconButton, makeStyles } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { IState, IFunctional, IValidation, IVariable, IVariableStep } from '../../../store/state';
+import { IState, IValidation, IVariable, IVariableStep } from '../../../store/state';
+
+const useStyles = makeStyles(theme => ({
+    block: {
+      marginTop: theme.spacing(4),
+    },
+}));
 
 type VariablesComponent = React.FC<{
-    functional: IFunctional;
     variables: IVariableStep;
     validity: IValidation['variableStep'];
     addVariable: () => void;
     updateVariable: (payload: {var: IVariable; index: number}) => void;
     removeVariable: (payload: number) => () => void;
 }>;
-const Variables: VariablesComponent = ({functional, variables, validity, addVariable, updateVariable, removeVariable}) => {
+const Variables: VariablesComponent = ({variables, validity, addVariable, updateVariable, removeVariable}) => {
+    const classes = useStyles();
     const handleVarChange = (key: keyof IVariable, i: number) => (payload: any) => updateVariable({
         var: {
             ...variables.vars[i],
@@ -42,15 +48,17 @@ const Variables: VariablesComponent = ({functional, variables, validity, addVari
                     {!validity.valid && validity.passed && !variable.p && (
                         <FormHelperText error={true}>{'Укажите функцию p' + i}</FormHelperText>
                     )}
-                    <div className="row">
+                    <div className={classes.block + ' row'}>
                         <TextField
                             label={'Начальной значение фазовой переменной ' + i}
                             onChange={handleVarChange('xt0', i)}
+                            type="number"
                             value={variable.xt0}
                         />
                         <TextField
                             label={'Конечное значение сопряженной переменной ' + i}
                             onChange={handleVarChange('pT', i)}
+                            type="number"
                             value={variable.pT}
                         />
                     </div>
@@ -69,7 +77,6 @@ const Variables: VariablesComponent = ({functional, variables, validity, addVari
 
 export default connect(
     (state: IState) => ({
-        functional: state.editingTask.functionalStep,
         variables: state.editingTask.variableStep,
         validity: state.editingTask.validation.variableStep
     }),

@@ -3,11 +3,13 @@ import functionalReducer from './functional-reducer';
 import variablesReducer from './variables-reducer';
 import managementReducer from './management-reducer';
 import { IState, initialState, IValidation } from '../state';
+import derivativesReducer from './derivatives-reducer';
 
 export default createReducer({
     ...functionalReducer,
     ...variablesReducer,
     ...managementReducer,
+    ...derivativesReducer,
     ...{
         VALIDITY_UPDATE(state: IState, action: IValidityUpdate){
             return {
@@ -26,7 +28,8 @@ export default createReducer({
                 ...state,
                 editingTask: initialState.editingTask
             }
-        }
+        },
+
     }
 });
 

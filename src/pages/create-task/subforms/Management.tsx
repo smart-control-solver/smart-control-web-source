@@ -1,12 +1,13 @@
 import { IManager, IState, IValidation } from '../../../store/state';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Paper, IconButton, Table, TableHead, TableRow, TableCell, TableBody, TextField, FormHelperText, makeStyles } from '@material-ui/core';
+import { Button, Paper, IconButton, Table, TableHead, TableRow, TableCell, TableBody, TextField, makeStyles } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles(theme => ({
     tableHeader: {
-        maxWidth: '200px;'
+        maxWidth: '200px',
+        minWidth: '120px'
     },
     tkField: {
         maxWidth: '80px',
@@ -49,99 +50,104 @@ const Management: ManagementType = ({
                         error={!validity.valid && validity.passed && !manager.u}
                         onChange={updateManager('u', i)}
                         value={manager.u}
+                        helperText={!validity.valid && validity.passed && !manager.u && `Укажите функцию u ${i}`}
                     />
-                    {!validity.valid && validity.passed && !manager.u && (
-                        <FormHelperText error={true}>Укажите функцию u {i}</FormHelperText>
-                    )}
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell></TableCell>
-                                {manager.dudv.map((v, j) => (
-                                    <TableCell key={j}>
-                                        <div className={classes.tableHeader + ' row'}>
-                                            <span>V{j}</span>
-                                            <IconButton
-                                                onClick={removeParameter(i, j)}
-                                                disabled={manager.dudv.length === 1}>
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </div>
-                                    </TableCell>
-                                )) }
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell component="th" scope="row">
-                                    du/dv
-                                </TableCell>
-                                {manager.dudv.map((v, s) => (
-                                    <TableCell key={s}>
-                                        <TextField
-                                            onChange={updateDudv(i, s)}
-                                            label={`du${i}/dv${s}`}
-                                            error={!validity.valid && validity.passed && !manager.dudv[s]}
-                                            value={v}/>
-                                        {!validity.valid && validity.passed && !manager.dudv[s] && (
-                                            <FormHelperText error={true}>Укажите производную du/dv</FormHelperText>
-                                        )}
-                                    </TableCell>
-                                )) }
-                            </TableRow>
-                            {manager.v.map((row, k) => (
-                                <TableRow key={k}>
-                                    <TableCell component="th" scope="row" className="row">
-                                        <IconButton onClick={removeTimeSwitcher(i, k)} disabled={manager.v.length === 1}>
-                                            <DeleteIcon />
-                                        </IconButton>
-                                        <span>
-                                            t{k} - {k === manager.v.length - 1 ? 'T' : 't' + (k + 1)}
-                                        </span>
-                                    </TableCell>
-                                    {row.map((v, s) => (
-                                        <TableCell key={s}>
-                                            <TextField
-                                                type="number"
-                                                label={`Значение v${s} на интервале t${k} - ${k === manager.v.length - 1 ? 'T' : 't' + (k + 1)}`}
-                                                onChange={updateV(i, k, s)}
-                                                value={v}/>
-                                        </TableCell>
-                                    )) }
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-
-                    {!!(manager.tk.length) && (
+                    <div className="table-scroll-x">
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell></TableCell>
-                                    <TableCell>
-                                        Момент переключения
-                                    </TableCell>
+                                    <TableCell />
+                                    {manager.dudv.map((v, j) => (
+                                        <TableCell key={j}>
+                                            <div className={classes.tableHeader}>
+                                                <span>V{j}</span>
+                                                <IconButton
+                                                    onClick={removeParameter(i, j)}
+                                                    disabled={manager.dudv.length === 1}>
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </div>
+                                        </TableCell>
+                                    )) }
+                                    <TableCell />
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {manager.tk.map((t, k) => (
+                                <TableRow>
+                                    <TableCell component="th" scope="row">
+                                        du/dv
+                                    </TableCell>
+                                    {manager.dudv.map((v, s) => (
+                                        <TableCell key={s}>
+                                            <TextField
+                                                onChange={updateDudv(i, s)}
+                                                label={`du${i}/dv${s}`}
+                                                error={!validity.valid && validity.passed && !manager.dudv[s]}
+                                                helperText={!validity.valid && validity.passed && !manager.dudv[s] && `Укажите производную du${i}/dv${s}`}
+                                                value={v}/>
+                                        </TableCell>
+                                    )) }
+                                    <TableCell />
+                                </TableRow>
+                                {manager.v.map((row, k) => (
                                     <TableRow key={k}>
                                         <TableCell component="th" scope="row" className="row">
                                             <span>
-                                                {'t' + (k + 1)}
+                                                t{k} - {k === manager.v.length - 1 ? 'T' : 't' + (k + 1)}
                                             </span>
                                         </TableCell>
+                                        {row.map((v, s) => (
+                                            <TableCell key={s}>
+                                                <TextField
+                                                    type="number"
+                                                    label={`Значение v${s}`}
+                                                    helperText={`на интервале t${k} - ${k === manager.v.length - 1 ? 'T' : 't' + (k + 1)}`}
+                                                    onChange={updateV(i, k, s)}
+                                                    value={v}/>
+                                            </TableCell>
+                                        )) }
                                         <TableCell>
-                                            <TextField
-                                                type="number"
-                                                className={classes.tkField}
-                                                onChange={updateTk(i, k)}
-                                                value={t}/>
+                                            <IconButton onClick={removeTimeSwitcher(i, k)} disabled={manager.v.length === 1}>
+                                                <DeleteIcon />
+                                            </IconButton>
                                         </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
                         </Table>
+                    </div>
+
+                    {!!(manager.tk.length) && (
+                        <div className="table-scroll-x">
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell></TableCell>
+                                        <TableCell>
+                                            Момент переключения
+                                        </TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {manager.tk.map((t, k) => (
+                                        <TableRow key={k}>
+                                            <TableCell component="th" scope="row" className="row">
+                                                <span>
+                                                    {'t' + (k + 1)}
+                                                </span>
+                                            </TableCell>
+                                            <TableCell>
+                                                <TextField
+                                                    type="number"
+                                                    className={classes.tkField}
+                                                    onChange={updateTk(i, k)}
+                                                    value={t}/>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </div>
                     )}
 
                     <div className={classes.center + ' row'}>

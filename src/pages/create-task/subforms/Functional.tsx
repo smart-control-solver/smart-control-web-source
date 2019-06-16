@@ -51,18 +51,20 @@ const Functional: FunctionalComponent = ({functional, validity, updateFunctional
                         label="Есть интегральная часть"
                     />
                 </FormControl>
-                <div className={classes.block + ' row'}>
+                <div className="row">
                     <TextField
-                        label="Начальный момент времени"
+                        label="t0"
                         onChange={handleChange('t0')}
                         type="number"
                         value={functional.t0}
+                        helperText="Начальный момент времени"
                     />
                     <TextField
-                        label="Конечный момент времени"
+                        label="T"
                         onChange={handleChange('T')}
                         type="number"
                         value={functional.T}
+                        helperText="Конечный момент времени"
                     />
                 </div>
                 <Typography variant="h6" className={classes.block}>

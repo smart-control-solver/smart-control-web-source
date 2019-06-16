@@ -20,6 +20,7 @@ import { IValidityUpdate } from '../../store/task-reducer';
 const useStyles = makeStyles(theme => ({
   root: {
     width: '90%',
+    maxWidth: '720px'
   },
   button: {
     marginTop: theme.spacing(1),

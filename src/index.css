@@ -21,8 +21,7 @@ code {
   display: flex;
   justify-content: space-between;
   flex-wrap: nowrap;
-  align-items: center;
-  max-width: 480px;
+  margin-top: 16px;
 }
 
 
@@ -35,5 +34,12 @@ code {
 .close-btn {
   align-self: flex-end;
   position: absolute !important;
+}
+.table-scroll-x {
+  overflow-x: auto;
+}
+
+.table-scroll-x table {
+  width: auto;
 }
 

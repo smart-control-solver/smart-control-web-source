@@ -1,4 +1,4 @@
-import { IState, IVariable, getEmptyVariable } from '../state';
+import { IState } from '../state';
 
 export default {
     DFDX_UPDATE(state: IState, action: {

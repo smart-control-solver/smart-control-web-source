@@ -169,7 +169,7 @@ export const initialState: IState = {
             },
             methodStep: {
                 passed: false,
-                valid: false
+                valid: true
             },
         }
     },

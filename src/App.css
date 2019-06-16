@@ -32,7 +32,7 @@
   color: white;
 }
 
-ul {
+.App-header ul {
   display: flex;
   list-style-type: none;
   justify-content: space-around;

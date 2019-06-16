@@ -4,12 +4,14 @@ import variablesReducer from './variables-reducer';
 import managementReducer from './management-reducer';
 import { IState, initialState, IValidation } from '../state';
 import derivativesReducer from './derivatives-reducer';
+import methodReducer from './method-reducer';
 
 export default createReducer({
     ...functionalReducer,
     ...variablesReducer,
     ...managementReducer,
     ...derivativesReducer,
+    ...methodReducer,
     ...{
         VALIDITY_UPDATE(state: IState, action: IValidityUpdate){
             return {

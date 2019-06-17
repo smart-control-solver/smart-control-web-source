@@ -2,6 +2,7 @@ export interface IState {
     editingTask: ITaskForm;
     task: any;
     history: any;
+    worker: Worker
 }
 
 export interface ITaskForm extends ITask {
@@ -175,4 +176,5 @@ export const initialState: IState = {
     },
     task: null,
     history: null,
+    worker: new Worker('/wasm/worker.js')
 };

@@ -59,11 +59,17 @@ function getSteps() {
     ];
 }
 
-type CreateTaskType = React.FC<{validity: IValidation, updateValidity: (payload: IValidityUpdate) => void, reset: () => void}>;
-const CreateTask: CreateTaskType = ({validity, updateValidity, reset}) => {
+type CreateTaskType = React.FC<{
+    validity: IValidation;
+    updateValidity: (payload: IValidityUpdate) => void;
+    reset: () => void;
+    worker: Worker
+}>;
+const CreateTask: CreateTaskType = ({validity, updateValidity, reset, worker}) => {
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(3);
     const steps = getSteps();
+    worker.postMessage([1, 2]);
 
     // Перемещение по шагам
     const handleStep = (step: number) => () => {
@@ -149,7 +155,8 @@ const CreateTask: CreateTaskType = ({validity, updateValidity, reset}) => {
 
 export default connect(
     (state: IState) => ({
-        validity: state.editingTask.validation
+        validity: state.editingTask.validation,
+        worker: state.worker
     }),
     dispatch => ({
         updateValidity: (payload: IValidityUpdate) => dispatch({ type: 'VALIDITY_UPDATE', payload }),

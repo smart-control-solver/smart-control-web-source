@@ -63,13 +63,12 @@ type CreateTaskType = React.FC<{
     validity: IValidation;
     updateValidity: (payload: IValidityUpdate) => void;
     reset: () => void;
-    worker: Worker
+    start: () => void;
 }>;
-const CreateTask: CreateTaskType = ({validity, updateValidity, reset, worker}) => {
+const CreateTask: CreateTaskType = ({validity, updateValidity, reset, start}) => {
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(3);
     const steps = getSteps();
-    worker.postMessage([1, 2]);
 
     // Перемещение по шагам
     const handleStep = (step: number) => () => {
@@ -90,7 +89,14 @@ const CreateTask: CreateTaskType = ({validity, updateValidity, reset, worker}) =
         setActiveStep(0);
         reset();
     };
-    const handleRun = () => {};
+    const handleRun = () => {
+        setActiveStep(0);
+        if (validity.functionalStep && validity.variableStep && validity.managementStep &&
+            validity.derivativeStep && validity.methodStep
+        ) {
+            start();
+        }
+    };
     const handleImport = () => {};
     const handleExport = () => {};
 
@@ -107,7 +113,7 @@ const CreateTask: CreateTaskType = ({validity, updateValidity, reset, worker}) =
             <Button onClick={handleReset} className={classes.button}>
                 Сбросить
             </Button>
-            <Button onClick={handleRun} className={classes.button} disabled={true}>
+            <Button onClick={handleRun} className={classes.button}>
                 Запустить решение
             </Button>
         </Paper>
@@ -156,10 +162,10 @@ const CreateTask: CreateTaskType = ({validity, updateValidity, reset, worker}) =
 export default connect(
     (state: IState) => ({
         validity: state.editingTask.validation,
-        worker: state.worker
     }),
     dispatch => ({
         updateValidity: (payload: IValidityUpdate) => dispatch({ type: 'VALIDITY_UPDATE', payload }),
         reset: () => dispatch({ type: 'RESET' }),
+        start: () => dispatch({ type: 'WASM_START' }),
     })
 )(CreateTask);

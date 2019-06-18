@@ -1,9 +1,17 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import { createEpicMiddleware } from 'redux-observable';
 import taskReducer from './task-reducer';
+import rootEpic from './epics';
 
-// const rootReducer = combineReducers({
-//   history: historyReducer,
-//   editingForm: taskReducer
-// });
+const epicMiddleware = createEpicMiddleware();
 
-export default createStore(taskReducer);
+export default function configureStore() {
+  const store = createStore(
+    taskReducer,
+    applyMiddleware(epicMiddleware)
+  );
+
+  epicMiddleware.run(rootEpic);
+
+  return store;
+}

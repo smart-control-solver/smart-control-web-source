@@ -72,8 +72,8 @@ const Variables: VariablesComponent = ({variables, validity, addVariable, update
 
 export default connect(
     (state: IState) => ({
-        variables: state.editingTask.variableStep,
-        validity: state.editingTask.validation.variableStep
+        variables: state.task.variableStep,
+        validity: state.task.validation.variableStep
     }),
     dispatch => ({
         addVariable: () => dispatch({ type: 'VARIABLE_ADD' }),

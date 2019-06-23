@@ -121,8 +121,8 @@ const Functional: FunctionalComponent = ({functional, validity, updateFunctional
 
 export default connect(
     (state: IState) => ({
-        functional: state.editingTask.functionalStep,
-        validity: state.editingTask.validation.functionalStep
+        functional: state.task.functionalStep,
+        validity: state.task.validation.functionalStep
     }),
     dispatch => ({
         updateFunctional: (payload: IFunctional) => dispatch({ type: 'FUNCTIONAL_UPDATE', payload }),

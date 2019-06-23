@@ -4,19 +4,19 @@ export default {
     FUNCTIONAL_UPDATE(state: IState, action: IFunctional) {
         return {
             ...state,
-            editingTask: {
-                ...state.editingTask,
+            task: {
+                ...state.task,
                 functionalStep: {
                     ...action,
                     t0: action.t0 || 0,
                     T: action.T || 1,
                 },
                 validation: {
-                    ...state.editingTask.validation,
+                    ...state.task.validation,
                     functionalStep: {
-                        ...state.editingTask.validation.functionalStep,
+                        ...state.task.validation.functionalStep,
                         valid: !!((action as IFunctional).functional) &&
-                            state.editingTask.functionalStep.constants.every(constant => !!(constant.key && constant.value))
+                            state.task.functionalStep.constants.every(constant => !!(constant.key && constant.value))
                     }
                 }
             },
@@ -24,21 +24,21 @@ export default {
     },
     CONSTANT_ADD(state: IState) {
         const constants = [
-            ...state.editingTask.functionalStep.constants,
+            ...state.task.functionalStep.constants,
             {key: '', value: ''}
         ];
         return {
             ...state,
-            editingTask: {
-                ...state.editingTask,
+            task: {
+                ...state.task,
                 functionalStep: {
-                    ...state.editingTask.functionalStep,
+                    ...state.task.functionalStep,
                     constants: constants
                 },
                 validation: {
-                    ...state.editingTask.validation,
+                    ...state.task.validation,
                     functionalStep: {
-                        ...state.editingTask.validation.functionalStep,
+                        ...state.task.validation.functionalStep,
                         valid: false
                     }
                 }
@@ -51,45 +51,45 @@ export default {
         value: string
     }) {
         const constants = [
-            ...state.editingTask.functionalStep.constants.slice(0, payload.constantIndex),
-            {...state.editingTask.functionalStep.constants[payload.constantIndex], [payload.prop]: payload.value},
-            ...state.editingTask.functionalStep.constants.slice(payload.constantIndex + 1),
+            ...state.task.functionalStep.constants.slice(0, payload.constantIndex),
+            {...state.task.functionalStep.constants[payload.constantIndex], [payload.prop]: payload.value},
+            ...state.task.functionalStep.constants.slice(payload.constantIndex + 1),
         ];
         return {
             ...state,
-            editingTask: {
-                ...state.editingTask,
+            task: {
+                ...state.task,
                 functionalStep: {
-                    ...state.editingTask.functionalStep,
+                    ...state.task.functionalStep,
                     constants: constants
                 },
                 validation: {
-                    ...state.editingTask.validation,
+                    ...state.task.validation,
                     functionalStep: {
-                        ...state.editingTask.validation.functionalStep,
-                        valid: state.editingTask.functionalStep.functional &&
-                            state.editingTask.functionalStep.constants.every(constant => !!(constant.key && constant.value))
+                        ...state.task.validation.functionalStep,
+                        valid: state.task.functionalStep.functional &&
+                            state.task.functionalStep.constants.every(constant => !!(constant.key && constant.value))
                     }
                 }
             },
         };
     },
     CONSTANT_REMOVE(state: IState, payload: number) {
-        const constants = state.editingTask.functionalStep.constants.filter((v, i) => i !== payload);
+        const constants = state.task.functionalStep.constants.filter((v, i) => i !== payload);
         return {
             ...state,
-            editingTask: {
-                ...state.editingTask,
+            task: {
+                ...state.task,
                 functionalStep: {
-                    ...state.editingTask.functionalStep,
+                    ...state.task.functionalStep,
                     constants: constants
                 },
                 validation: {
-                    ...state.editingTask.validation,
+                    ...state.task.validation,
                     functionalStep: {
-                        ...state.editingTask.validation.functionalStep,
-                        valid: state.editingTask.functionalStep.functional &&
-                            state.editingTask.functionalStep.constants.every(constant => !!(constant.key && constant.value))
+                        ...state.task.validation.functionalStep,
+                        valid: state.task.functionalStep.functional &&
+                            state.task.functionalStep.constants.every(constant => !!(constant.key && constant.value))
                     }
                 }
             },

@@ -5,6 +5,7 @@ import managementReducer from './management-reducer';
 import { IState, initialState, IValidation } from '../state';
 import derivativesReducer from './derivatives-reducer';
 import methodReducer from './method-reducer';
+import wasmReducer from './wasm-reducer';
 
 export default createReducer({
     ...functionalReducer,
@@ -12,14 +13,15 @@ export default createReducer({
     ...managementReducer,
     ...derivativesReducer,
     ...methodReducer,
+    ...wasmReducer,
     ...{
         VALIDITY_UPDATE(state: IState, action: IValidityUpdate){
             return {
                 ...state,
                 editingTask: {
-                    ...state.editingTask,
+                    ...state.task,
                     validation: {
-                        ...state.editingTask.validation,
+                        ...state.task.validation,
                         [action.key]: action.value
                     }
                 }
@@ -28,7 +30,7 @@ export default createReducer({
         RESET(state: IState) {
             return {
                 ...state,
-                editingTask: initialState.editingTask
+                editingTask: initialState.task
             }
         },
 
@@ -37,5 +39,5 @@ export default createReducer({
 
 export interface IValidityUpdate {
     key: string;
-    value: IState['editingTask']['validation'][keyof IValidation];
+    value: IState['task']['validation'][keyof IValidation];
 }

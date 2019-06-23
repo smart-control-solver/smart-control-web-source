@@ -3,18 +3,18 @@ import { IState, IFunctional, getEmptyManager, IManager } from '../state';
 export default {
     MANAGER_ADD(state: IState, action: IFunctional) {
         const withNewManager = [
-            ...state.editingTask.managementStep,
+            ...state.task.managementStep,
             getEmptyManager()
         ];
         return {
             ...state,
-            editingTask: {
-                ...state.editingTask,
+            task: {
+                ...state.task,
                 managementStep: withNewManager,
                 validation: {
-                    ...state.editingTask.validation,
+                    ...state.task.validation,
                     variableStep: {
-                        ...state.editingTask.validation.managementStep,
+                        ...state.task.validation.managementStep,
                         valid: withNewManager.every(m => !!(
                             m.u && m.dudv.every(Boolean)
                         ))
@@ -28,24 +28,24 @@ export default {
         value: any,
         index: number
     }) {
-        const updatingManager = state.editingTask.managementStep[action.index];
+        const updatingManager = state.task.managementStep[action.index];
         const withEdittedManager = [
-            ...state.editingTask.managementStep.slice(0, action.index),
+            ...state.task.managementStep.slice(0, action.index),
             {
                 ...updatingManager,
                 [action.key]: action.value
             },
-            ...state.editingTask.managementStep.slice(action.index + 1),
+            ...state.task.managementStep.slice(action.index + 1),
         ];
         return {
             ...state,
-            editingTask: {
-                ...state.editingTask,
+            task: {
+                ...state.task,
                 managementStep: withEdittedManager,
                 validation: {
-                    ...state.editingTask.validation,
+                    ...state.task.validation,
                     variableStep: {
-                        ...state.editingTask.validation.managementStep,
+                        ...state.task.validation.managementStep,
                         valid: withEdittedManager.every(m => !!(
                             m.u && m.dudv.every(Boolean)
                         ))
@@ -55,16 +55,16 @@ export default {
         }
     },
     MANAGER_REMOVE(state: IState, action: number) {
-        const withDelettedManager = state.editingTask.managementStep.filter((m, i) => i !== action);
+        const withDelettedManager = state.task.managementStep.filter((m, i) => i !== action);
         return {
             ...state,
-            editingTask: {
-                ...state.editingTask,
+            task: {
+                ...state.task,
                 managementStep: withDelettedManager,
                 validation: {
-                    ...state.editingTask.validation,
+                    ...state.task.validation,
                     variableStep: {
-                        ...state.editingTask.validation.managementStep,
+                        ...state.task.validation.managementStep,
                         valid: withDelettedManager.every(m => !!(
                             m.u && m.dudv.every(Boolean)
                         ))
@@ -78,9 +78,9 @@ export default {
         manager: number,
         dudv: number
     }) {
-        const updatingManager = state.editingTask.managementStep[action.manager];
+        const updatingManager = state.task.managementStep[action.manager];
         const withEdittedManager = [
-            ...state.editingTask.managementStep.slice(0, action.manager),
+            ...state.task.managementStep.slice(0, action.manager),
             {
                 ...updatingManager,
                 dudv: [
@@ -89,17 +89,17 @@ export default {
                     ...updatingManager.dudv.slice(action.dudv + 1),
                 ]
             },
-            ...state.editingTask.managementStep.slice(action.manager + 1),
+            ...state.task.managementStep.slice(action.manager + 1),
         ];
         return {
             ...state,
-            editingTask: {
-                ...state.editingTask,
+            task: {
+                ...state.task,
                 managementStep: withEdittedManager,
                 validation: {
-                    ...state.editingTask.validation,
+                    ...state.task.validation,
                     variableStep: {
-                        ...state.editingTask.validation.managementStep,
+                        ...state.task.validation.managementStep,
                         valid: withEdittedManager.every(m => !!(
                             m.u && m.dudv.every(Boolean)
                         ))
@@ -114,9 +114,9 @@ export default {
         interval: number,
         v: number
     }) {
-        const updatingManager = state.editingTask.managementStep[action.manager];
+        const updatingManager = state.task.managementStep[action.manager];
         const withEdittedManager = [
-            ...state.editingTask.managementStep.slice(0, action.manager),
+            ...state.task.managementStep.slice(0, action.manager),
             {
                 ...updatingManager,
                 v: [
@@ -129,17 +129,17 @@ export default {
                     ...updatingManager.v.slice(action.interval + 1),
                 ]
             },
-            ...state.editingTask.managementStep.slice(action.manager + 1),
+            ...state.task.managementStep.slice(action.manager + 1),
         ];
         return {
             ...state,
-            editingTask: {
-                ...state.editingTask,
+            task: {
+                ...state.task,
                 managementStep: withEdittedManager,
                 validation: {
-                    ...state.editingTask.validation,
+                    ...state.task.validation,
                     variableStep: {
-                        ...state.editingTask.validation.managementStep,
+                        ...state.task.validation.managementStep,
                         valid: withEdittedManager.every(m => !!(
                             m.u && m.dudv.every(Boolean)
                         ))
@@ -153,9 +153,9 @@ export default {
         manager: number,
         interval: number
     }) {
-        const updatingManager = state.editingTask.managementStep[action.manager];
+        const updatingManager = state.task.managementStep[action.manager];
         const withEdittedManager = [
-            ...state.editingTask.managementStep.slice(0, action.manager),
+            ...state.task.managementStep.slice(0, action.manager),
             {
                 ...updatingManager,
                 tk: [
@@ -164,17 +164,17 @@ export default {
                     ...updatingManager.tk.slice(action.interval + 1),
                 ]
             },
-            ...state.editingTask.managementStep.slice(action.manager + 1),
+            ...state.task.managementStep.slice(action.manager + 1),
         ];
         return {
             ...state,
-            editingTask: {
-                ...state.editingTask,
+            task: {
+                ...state.task,
                 managementStep: withEdittedManager,
                 validation: {
-                    ...state.editingTask.validation,
+                    ...state.task.validation,
                     variableStep: {
-                        ...state.editingTask.validation.managementStep,
+                        ...state.task.validation.managementStep,
                         valid: withEdittedManager.every(m => !!(
                             m.u && m.dudv.every(Boolean)
                         ))
@@ -184,25 +184,25 @@ export default {
         }
     },
     PARAMETER_ADD(state: IState, action: number) {
-        const managerWithNewParameter = state.editingTask.managementStep[action];
+        const managerWithNewParameter = state.task.managementStep[action];
         const withNewParametr = [
-            ...state.editingTask.managementStep.slice(0, action),
+            ...state.task.managementStep.slice(0, action),
             {
                 ...managerWithNewParameter,
                 v: managerWithNewParameter.v.map(interval => [...interval, 0]),
                 dudv: [...managerWithNewParameter.dudv, '']
             },
-            ...state.editingTask.managementStep.slice(action + 1),
+            ...state.task.managementStep.slice(action + 1),
         ];
         return {
             ...state,
-            editingTask: {
-                ...state.editingTask,
+            task: {
+                ...state.task,
                 managementStep: withNewParametr,
                 validation: {
-                    ...state.editingTask.validation,
+                    ...state.task.validation,
                     variableStep: {
-                        ...state.editingTask.validation.managementStep,
+                        ...state.task.validation.managementStep,
                         valid: withNewParametr.every(m => !!(
                             m.u && m.dudv.every(Boolean)
                         ))
@@ -212,25 +212,25 @@ export default {
         };
     },
     PARAMETER_REMOVE(state: IState, action:  {manager: number, parameter: number}) {
-        const managerWithDelettingParameter = state.editingTask.managementStep[action.manager];
+        const managerWithDelettingParameter = state.task.managementStep[action.manager];
         const withDeletedParameter = [
-            ...state.editingTask.managementStep.slice(0, action.manager),
+            ...state.task.managementStep.slice(0, action.manager),
             {
                 ...managerWithDelettingParameter,
                 v: managerWithDelettingParameter.v.map(interval => interval.filter((v, i) => i !== action.parameter)),
                 dudv: managerWithDelettingParameter.dudv.filter((v, i) => i !== action.parameter)
             },
-            ...state.editingTask.managementStep.slice(action.manager + 1),
+            ...state.task.managementStep.slice(action.manager + 1),
         ];
         return {
             ...state,
-            editingTask: {
-                ...state.editingTask,
+            task: {
+                ...state.task,
                 managementStep: withDeletedParameter,
                 validation: {
-                    ...state.editingTask.validation,
+                    ...state.task.validation,
                     variableStep: {
-                        ...state.editingTask.validation.managementStep,
+                        ...state.task.validation.managementStep,
                         valid: withDeletedParameter.every(m => !!(
                             m.u && m.dudv.every(Boolean)
                         ))
@@ -240,25 +240,25 @@ export default {
         };
     },
     TIMESWITCHER_ADD(state: IState, action: number) {
-        const mangerWithNewTimeSwitcher = state.editingTask.managementStep[action];
+        const mangerWithNewTimeSwitcher = state.task.managementStep[action];
         const withNewTimeSwitcher = [
-            ...state.editingTask.managementStep.slice(0, action),
+            ...state.task.managementStep.slice(0, action),
             {
                 ...mangerWithNewTimeSwitcher,
                 v: [...mangerWithNewTimeSwitcher.v, Array(mangerWithNewTimeSwitcher.dudv.length).fill(0)],
                 tk: [...mangerWithNewTimeSwitcher.tk, 0]
             },
-            ...state.editingTask.managementStep.slice(action + 1),
+            ...state.task.managementStep.slice(action + 1),
         ];
         return {
             ...state,
-            editingTask: {
-                ...state.editingTask,
+            task: {
+                ...state.task,
                 managementStep: withNewTimeSwitcher,
                 validation: {
-                    ...state.editingTask.validation,
+                    ...state.task.validation,
                     variableStep: {
-                        ...state.editingTask.validation.managementStep,
+                        ...state.task.validation.managementStep,
                         valid: withNewTimeSwitcher.every(m => !!(
                             m.u && m.dudv.every(Boolean)
                         ))
@@ -268,25 +268,25 @@ export default {
         };
     },
     TIMESWITCHER_REMOVE(state: IState, action: {manager: number, timeswitcher: number}) {
-        const managerWithDelettingTimeSwitcher = state.editingTask.managementStep[action.manager];
+        const managerWithDelettingTimeSwitcher = state.task.managementStep[action.manager];
         const withDeletedTimeSwitcher = [
-            ...state.editingTask.managementStep.slice(0, action.manager),
+            ...state.task.managementStep.slice(0, action.manager),
             {
                 ...managerWithDelettingTimeSwitcher,
                 v: managerWithDelettingTimeSwitcher.v.filter((interval, i) => i !== action.timeswitcher),
                 tk: managerWithDelettingTimeSwitcher.tk.slice(0, managerWithDelettingTimeSwitcher.tk.length - 1)
             },
-            ...state.editingTask.managementStep.slice(action.manager + 1),
+            ...state.task.managementStep.slice(action.manager + 1),
         ];
         return {
             ...state,
-            editingTask: {
-                ...state.editingTask,
+            task: {
+                ...state.task,
                 managementStep: withDeletedTimeSwitcher,
                 validation: {
-                    ...state.editingTask.validation,
+                    ...state.task.validation,
                     variableStep: {
-                        ...state.editingTask.validation.managementStep,
+                        ...state.task.validation.managementStep,
                         valid: withDeletedTimeSwitcher.every(m => !!(
                             m.u && m.dudv.every(Boolean)
                         ))

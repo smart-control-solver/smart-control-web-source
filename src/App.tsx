@@ -25,7 +25,7 @@ const App: React.FC = () => {
         <div className="App-outlet">
           <Route exact path="/" component={CreateTask} />
           {/* <Route path="/about" component={About} /> */}
-          <Route path="/topics" component={History} />
+          <Route path="/history" component={History} />
         </div>
       </div>
     </Router>

@@ -16,6 +16,7 @@ import Derivatives from './subforms/Derivatives';
 import Method from './subforms/Method';
 import { IState, IValidation, TaskStep } from '../../store/state';
 import { IValidityUpdate } from '../../store/task-reducer';
+import SolvingDialog from './SolvingDialog';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -97,6 +98,7 @@ const CreateTask: CreateTaskType = ({validity, updateValidity, reset, start}) =>
             start();
         }
     };
+    // TODO: разобраться с csv
     const handleImport = () => {};
     const handleExport = () => {};
 
@@ -127,25 +129,6 @@ const CreateTask: CreateTaskType = ({validity, updateValidity, reset, start}) =>
                 </StepButton>
                 <StepContent>
                     {step.content}
-                    <div className={classes.actionsContainer}>
-                        {/* <div>
-                            <Button
-                                disabled={activeStep === 0}
-                                onClick={handleStep(index - 1)}
-                                className={classes.button}
-                            >
-                                Перейти к предыдущему шагу
-                            </Button>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={handleStep(index + 1)}
-                                className={classes.button}
-                                >
-                                {activeStep === steps.length - 1 ? 'Завершить' : 'Перейти к следующему шагу'}
-                            </Button>
-                        </div> */}
-                    </div>
                 </StepContent>
             </Step>
           )})}
@@ -155,13 +138,14 @@ const CreateTask: CreateTaskType = ({validity, updateValidity, reset, start}) =>
                 <Typography><span>Все данные введены.</span></Typography>
             </Paper>
         )}
+        <SolvingDialog />
       </div>
     );
 }
 
 export default connect(
     (state: IState) => ({
-        validity: state.editingTask.validation,
+        validity: state.task.validation,
     }),
     dispatch => ({
         updateValidity: (payload: IValidityUpdate) => dispatch({ type: 'VALIDITY_UPDATE', payload }),

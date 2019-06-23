@@ -107,10 +107,10 @@ const Derivatives: DerivativesType = ({variables, management, derivatives, valid
 
 export default connect(
     (state: IState) => ({
-        variables: state.editingTask.variableStep,
-        management: state.editingTask.managementStep,
-        derivatives: state.editingTask.derivativeStep,
-        validity: state.editingTask.validation.derivativeStep
+        variables: state.task.variableStep,
+        management: state.task.managementStep,
+        derivatives: state.task.derivativeStep,
+        validity: state.task.validation.derivativeStep
     }),
     dispatch => ({
         updateDfDx: (fIndex: number, xIndex: number) => (payload: any) => dispatch({ type: 'DFDX_UPDATE', payload: {

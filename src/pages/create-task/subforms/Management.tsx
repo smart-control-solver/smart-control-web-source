@@ -174,8 +174,8 @@ const Management: ManagementType = ({
 
 export default connect(
     (state: IState) => ({
-        management: state.editingTask.managementStep,
-        validity: state.editingTask.validation.managementStep
+        management: state.task.managementStep,
+        validity: state.task.validation.managementStep
     }),
     dispatch => ({
         addManager: () => dispatch({ type: 'MANAGER_ADD' }),

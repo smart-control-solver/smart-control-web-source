@@ -11,7 +11,7 @@ export default function configureStore() {
     applyMiddleware(epicMiddleware)
   );
 
-  epicMiddleware.run(rootEpic);
+  epicMiddleware.run(rootEpic as any);
 
   return store;
 }

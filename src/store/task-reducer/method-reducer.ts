@@ -4,10 +4,10 @@ export default {
     METHOD_UPDATE(state: IState, action: {key: keyof IMethod; value: any;}) {
         return {
             ...state,
-            editingTask: {
-                ...state.editingTask,
+            task: {
+                ...state.task,
                 methodStep: {
-                    ...state.editingTask.methodStep,
+                    ...state.task.methodStep,
                     [action.key]: action.value
                 },
             },

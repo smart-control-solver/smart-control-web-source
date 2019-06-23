@@ -49,7 +49,7 @@ const Method: MethodComponent = ({method, updateMethod}) => {
 
 export default connect(
     (state: IState) => ({
-        method: state.editingTask.methodStep,
+        method: state.task.methodStep,
     }),
     dispatch => ({
         updateMethod: (key: keyof IMethod) => (event: any) => dispatch({ type: 'METHOD_UPDATE', payload: {

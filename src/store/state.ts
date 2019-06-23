@@ -1,8 +1,13 @@
 export interface IState {
-    editingTask: ITaskForm;
-    task: any;
+    task: ITaskForm;
     history: any;
-    worker: Worker
+    calculating: {
+        worker: Worker;
+        inprogress: boolean;
+        error: string;
+        progress: any;
+        finished: boolean;
+    };
 }
 
 export interface ITaskForm extends ITask {
@@ -125,7 +130,7 @@ export interface IMethod {
 }
 
 export const initialState: IState = {
-    editingTask: {
+    task: {
         functionalStep: {
             functional: '',
             t0: 0,
@@ -174,7 +179,12 @@ export const initialState: IState = {
             },
         }
     },
-    task: null,
     history: null,
-    worker: new Worker('/wasm/worker.js')
+    calculating: {
+        worker: new Worker('/wasm/worker.js'),
+        error: '',
+        finished: false,
+        inprogress: false,
+        progress: null
+    }
 };

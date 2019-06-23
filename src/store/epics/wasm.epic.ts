@@ -1,43 +1,41 @@
 import { ofType, Epic, combineEpics } from 'redux-observable';
-import { tap, ignoreElements, mergeMap, withLatestFrom, pluck } from 'rxjs/operators';
+import { tap, withLatestFrom, pluck, map, switchMap } from 'rxjs/operators';
 import { IState } from '../state';
-import { fromEvent } from 'rxjs';
+import { fromEvent, merge, of } from 'rxjs';
+import { Action } from 'redux';
 
-const wasmStartEpic: Epic<any, any, IState> = (action$, state$) => action$.pipe(
+type epicType = Epic<Action<any>, any, IState>
+
+const wasmStartEpic: epicType = (action$, state$) => action$.pipe(
     ofType('WASM_START'),
     tap(console.log),
     withLatestFrom(state$),
-    mergeMap(([action, state]) => {
+    switchMap(([, state]) => {
         // заворачиваем в таймаут на случай моментального ответа от воркера, до того, как мы успели подписаться
-        setTimeout(() => state.worker.postMessage({
+        setTimeout(() => state.calculating.worker.postMessage({
             type: 'solve',
-            task: state.editingTask
+            task: state.task
         }));
-        return fromEvent(state.worker, 'message').pipe(pluck('data'))
+        return merge(
+            of({type: 'WASM_STARTED'}),
+            fromEvent(state.calculating.worker, 'message').pipe(pluck('data'))
+        )
     })
 );
 
-const wasmNextEpic: Epic = (action$, state$) => action$.pipe(
-    ofType('WASM_NEXT'),
+const wasmCancelEpic: epicType = (action$, state$) => action$.pipe(
+    ofType('WASM_CANCEL'),
     tap(console.log),
-    ignoreElements()
-);
-
-const wasmErrorEpic: Epic = (action$, state$) => action$.pipe(
-    ofType('WASM_ERROR'),
-    tap(console.log),
-    ignoreElements()
-);
-
-const wasmCompleteEpic: Epic = (action$, state$) => action$.pipe(
-    ofType('WASM_COMPLETE'),
-    tap(console.log),
-    ignoreElements()
+    withLatestFrom(state$),
+    map(([, state]) => {
+        state.calculating.worker.postMessage({
+            type: 'cancel'
+        })
+        return {type: 'WASM_STOPPED'};
+    })
 );
 
 export const wasmEpic = combineEpics(
     wasmStartEpic,
-    wasmNextEpic,
-    wasmErrorEpic,
-    wasmCompleteEpic
+    wasmCancelEpic
 )
